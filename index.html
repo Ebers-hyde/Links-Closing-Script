@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 200px; /* Всем блоку-родителю задаётся ширина*/
+        }
+        .first_link {
+            background-color: rgb(198, 228, 230); /* Одному определенному блоку-родителю задаётся такой цвет */
+        }
+        .second_link {
+            background-color: rgb(121, 137, 138); /* Другому определенному блоку-родителю задаётся ещё один цвет */
+        }
+
+        /* Стили для псевдоссылки, из-за которых она выглядит полностью так же как должна: синий цвет, подчёркивание, появление пальчика при наведении. */
+
+        .transformedLink {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="first_link"> <!-- Блок с первой ссылкой, которая будет заменена на псевдоссылку-->
+        <a href="http://vk.com">Ссылка на Вк</a>
+    </div>
+    <div class="second_link">
+    <a href="http://youtube.com">Ссылка на Youtube</a> <!-- Блок со второй ссылкой, которая будет заменена на псевдоссылку-->
+    </div>
+
+    <script>
+        let links = document.querySelectorAll('a'); //Все ссылки на странице собираются в одну коллекцию 
+        links.forEach(el => { // Для каждой из ссылок из этой коллекции будут проделываться прописанные действия 
+            let direction = el.href; // В отдельную переменную записывается путь ссылки
+            let text = el.innerText; // В отдельную переменную записывается надпись ссылки, которую ты видишь на странице
+            let parent = el.parentElement; // В отдельную переменную записывается блок, в котором находилась ссылка. Например, родительской может быть ячейка таблицы.
+            parent.removeChild(el); //Удаляем ссылку из родительского блока
+            let changedLink = document.createElement("span"); //Создаём для документа новый фрагмент текста
+            changedLink.className = "transformedLink"; //Присваиваем ему класс, который будем использовать для присвоения стилей
+            changedLink.innerText = text; //Присваиваем текст, который был у ссылки
+            parent.append(changedLink); //Вставляем этот фрагмент конкретно в родительский элемент, туда же, где она и была. Теперь ссылка подменена, но визуально - никаких изменений
+            changedLink.addEventListener("click", function() { //Псевдоссылке присваивается поведение, то есть то, что произойдёт, когда на неё кликнут 
+                window.open(`${direction}`); //Происходит переход по пути, который содержался в ссылке.
+            });
+        });
+    </script>
+</body>
+</html>
